@@ -205,27 +205,19 @@
   code: >-
     https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Afmt%3A%3ADisplay%3B%0Ause%20std%3A%3Aerror%3A%3AError%3B%0A%0Astruct%20Placinta%3B%0A%0A%23%5Bderive(Debug)%5D%0Astruct%20EroareNuEProaspata%3B%0A%0Aimpl%20Display%20for%20EroareNuEProaspata%20%7B%0A%20%20%20%20fn%20fmt(%26self%2C%20f%3A%20%26mut%20std%3A%3Afmt%3A%3AFormatter%3C'_%3E)%20-%3E%20std%3A%3Afmt%3A%3AResult%20%7B%0A%20%20%20%20%20%20%20%20write!(f%2C%20%22Aceasta%20placinta%20nu%20e%20proaspata!%22)%0A%20%20%20%20%7D%0A%7D%0A%0Aimpl%20Error%20for%20EroareNuEProaspata%20%7B%7D%0A%0Aimpl%20Placinta%20%7B%0A%20%20%20%20fn%20mananca(%26self)%20-%3E%20Result%3C()%2C%20Box%3Cdyn%20Error%3E%3E%20%7B%0A%20%20%20%20%20%20%20%20Err(Box%3A%3Anew(EroareNuEProaspata))%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20-%3E%20Result%3C()%2C%20Box%3Cdyn%20Error%3E%3E%20%7B%0A%20%20%20%20let%20placinta_de_pe_heap%20%3D%20Box%3A%3Anew(Placinta)%3B%0A%20%20%20%20placinta_de_pe_heap.mananca()%3F%3B%0A%20%20%20%20Ok(())%0A%7D%0A
   content_markdown: >
-    Rust code may have a plethora of representations of errors, but the standard
-    library has
-
-    a universal trait `std::error::Error` for describing errors.
+    Codul Rust poate avea o multitudine de reprezentări ale erorilor, dar biblioteca standard
+    are o trăsătură universală `std::error::Error` pentru a descrie erorile.
 
 
-    Using a smart pointer `Box` we can use the type `Box<dyn std::error::Error>`
-    as a common type for returning errors because it allows us to
+    Utilizând un smart pointer `Box` putem folosi tipul `Box<dyn std::error::Error>` ca un tip
+    comun pentru returnarea erorilor, deoarece ne permite să propagăm o eroare pe heap
+    
+    și să interacționăm cu ea la un nivel înalt fără a fi nevoie să cunoaștem un tip specific.
 
-    propagate up an error on the heap and interact with it at a high level
-    without having to know a specific type.
-
-
-    Early in Tour of Rust we learned that `main` can return an error. We can now
-    return
-
-    a type capable of describing almost any kind of error that might occur in
-    our program 
-
-    so long as the error's data structure implements Rust's common `Error`
-    trait.
+    La începutul Turului limbajului Rust am învățat că `main` poate returna o eroare. Acum putem
+    returna un tip capabil să descrie aproape orice fel de eroare care ar putea apărea în programul
+    
+    nostru, atâta timp cât structura de date a erorii implementează trăsătura comună `Error` din Rust.
 
 
     ```rust
@@ -233,108 +225,94 @@
     fn main() -> Result<(), Box<dyn std::error:Error>>
 
     ```
-- title: Referencing Counting
+- title: Numărarea referințelor
   code: >-
-    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Arc%3A%3ARc%3B%0A%0Astruct%20Pie%3B%0A%0Aimpl%20Pie%20%7B%0A%20%20%20%20fn%20eat(%26self)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22tastes%20better%20on%20the%20heap!%22)%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20heap_pie%20%3D%20Rc%3A%3Anew(Pie)%3B%0A%20%20%20%20let%20heap_pie2%20%3D%20heap_pie.clone()%3B%0A%20%20%20%20let%20heap_pie3%20%3D%20heap_pie2.clone()%3B%0A%0A%20%20%20%20heap_pie3.eat()%3B%0A%20%20%20%20heap_pie2.eat()%3B%0A%20%20%20%20heap_pie.eat()%3B%0A%0A%20%20%20%20%2F%2F%20all%20reference%20count%20smart%20pointers%20are%20dropped%20now%0A%20%20%20%20%2F%2F%20the%20heap%20data%20Pie%20finally%20deallocates%0A%7D%0A
+    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Arc%3A%3ARc%3B%0A%0Astruct%20Placinta%3B%0A%0Aimpl%20Placinta%20%7B%0A%20%20%20%20fn%20mananca(%26self)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22are%20gust%20mai%20bun%20pe%20heap!%22)%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20placinta_de_pe_heap%20%3D%20Rc%3A%3Anew(Placinta)%3B%0A%20%20%20%20let%20placinta_de_pe_heap2%20%3D%20placinta_de_pe_heap.clone()%3B%0A%20%20%20%20let%20placinta_de_pe_heap3%20%3D%20placinta_de_pe_heap2.clone()%3B%0A%0A%20%20%20%20placinta_de_pe_heap3.mananca()%3B%0A%20%20%20%20placinta_de_pe_heap2.mananca()%3B%0A%20%20%20%20placinta_de_pe_heap.mananca()%3B%0A%0A%20%20%20%20%2F%2F%20toti%20smart%20pointerii%20cu%20referinte%20numarate%20sunt%20acum%20eliminati%20(drop)%0A%20%20%20%20%2F%2F%20datele%20de%20pe%20heap%20sunt%20intr-un%20final%20dealocate%0A%7D%0A
   content_markdown: >
-    `Rc` is a smart pointer that moves data from the stack onto the heap. It
-    allows us to 
-
-    clone other `Rc` smart pointers that all have the ability to immutably
-    borrow the data 
-
-    that was put on the heap.
+    `Rc` este un smart pointer care mută datele de pe stivă în heap. Acesta
+    ne permite să clonăm alți smart pointeri `Rc`, care au toți capacitatea 
+    
+    de a împrumuta, în mod imutabil, date care au fost puse pe heap.
 
 
-    Only when the last smart pointer is dropped does the data on the heap become
-    deallocated.
-- title: Sharing Access
+    Doar atunci când ultimul smart pointer este eliminat (drop), datele de pe heap devin
+    dealocate.
+- title: Partajarea accesului
   code: >-
-    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Acell%3A%3ARefCell%3B%0A%0Astruct%20Pie%20%7B%0A%20%20%20%20slices%3A%20u8%0A%7D%0A%0Aimpl%20Pie%20%7B%0A%20%20%20%20fn%20eat(%26mut%20self)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22tastes%20better%20on%20the%20heap!%22)%3B%0A%20%20%20%20%20%20%20%20self.slices%20-%3D%201%3B%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20%2F%2F%20RefCell%20validates%20memory%20safety%20at%20runtime%0A%20%20%20%20%2F%2F%20notice%3A%20pie_cell%20is%20not%20mut!%0A%20%20%20%20let%20pie_cell%20%3D%20RefCell%3A%3Anew(Pie%7Bslices%3A8%7D)%3B%0A%20%20%20%20%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20but%20we%20can%20borrow%20mutable%20references!%0A%20%20%20%20%20%20%20%20let%20mut%20mut_ref_pie%20%3D%20pie_cell.borrow_mut()%3B%0A%20%20%20%20%20%20%20%20mut_ref_pie.eat()%3B%0A%20%20%20%20%20%20%20%20mut_ref_pie.eat()%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%2F%2F%20mut_ref_pie%20is%20dropped%20at%20end%20of%20scope%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20%2F%2F%20now%20we%20can%20borrow%20immutably%20once%20our%20mutable%20reference%20drops%0A%20%20%20%20%20let%20ref_pie%20%3D%20pie_cell.borrow()%3B%0A%20%20%20%20%20println!(%22%7B%7D%20slices%20left%22%2Cref_pie.slices)%3B%0A%7D%0A
+    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Acell%3A%3ARefCell%3B%0A%0Astruct%20Placinta%20%7B%0A%20%20%20%20felii%3A%20u8%0A%7D%0A%0Aimpl%20Placinta%20%7B%0A%20%20%20%20fn%20mananca(%26mut%20self)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22are%20gust%20mai%20bun%20pe%20heap!%22)%3B%0A%20%20%20%20%20%20%20%20self.felii%20-%3D%201%3B%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20%2F%2F%20RefCell%20valideaza%20siguranta%20memoriei%20la%20runtime%0A%20%20%20%20%2F%2F%20aviz%3A%20placinta_cell%20nu%20este%20mut!%0A%20%20%20%20let%20placinta_cell%20%3D%20RefCell%3A%3Anew(Placinta%7Bfelii%3A8%7D)%3B%0A%20%20%20%20%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20dar%20putem%20imprumuta%20referinte%20mutabile!%0A%20%20%20%20%20%20%20%20let%20mut%20mut_ref_placinta%20%3D%20placinta_cell.borrow_mut()%3B%0A%20%20%20%20%20%20%20%20mut_ref_placinta.mananca()%3B%0A%20%20%20%20%20%20%20%20mut_ref_placinta.mananca()%3B%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%2F%2F%20mut_ref_placinta%20este%20eliminata%20(drop)%20la%20finalul%0A%20%20%20%20%20%20%20%20%2F%2F%20domeniului%20de%20vizibilitate%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20%2F%2F%20acum%20putem%20imprumuta%20imutabil%20odata%20ce%20referinta%0A%20%20%20%20%2F%2F%20noastra%20mutabila%20este%20eliminata%20(drop)%0A%20%20%20%20%20let%20ref_placinta%20%3D%20placinta_cell.borrow()%3B%0A%20%20%20%20%20println!(%22%7B%7D%20felii%20ramase%22%2Cref_placinta.felii)%3B%0A%7D%0A
   content_markdown: >
-    `RefCell` is a container data structure commonly held by smart pointers that
-    takes in data and lets us
+    `RefCell` este o structură de date de tip container ținută în mod obișnuit
+    de smart pointeri care preia date și ne permite
 
-    borrow mutable and immutable references to what's inside. It prevents
-    borrowing from
-
-    being abused by enforcing Rust's memory safety rules at runtime when you ask
-    to borrow
-
-    the data within:
+    să împrumutăm referințe mutabile și imuabile la ceea ce se află în interior.
+    Aceasta previne abuzul de împrumut prin aplicarea regulilor de siguranță a memoriei
+    
+    din Rust în timpul execuției, atunci când cereți împrumutul datelor din interior:
 
 
-    **Only one mutable reference OR multiple immutable references, but not
-    both!**
+    **Doar o singură referință mutabilă SAU mai multe referințe imuabile, dar nu
+    ambele!**
 
 
-    If you violate these rules `RefCell` will panic.
-- title: Sharing Across Threads
+    Dacă încălcați aceste reguli, `RefCell` se va panica.
+- title: Partajarea între thread-uri
   code: >-
-    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Async%3A%3AMutex%3B%0A%0Astruct%20Pie%3B%0A%0Aimpl%20Pie%20%7B%0A%20%20%20%20fn%20eat(%26self)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22only%20I%20eat%20the%20pie%20right%20now!%22)%3B%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20mutex_pie%20%3D%20Mutex%3A%3Anew(Pie)%3B%0A%20%20%20%20%2F%2F%20let's%20borrow%20a%20locked%20immutable%20reference%20of%20pie%0A%20%20%20%20%2F%2F%20we%20have%20to%20unwrap%20the%20result%20of%20a%20lock%0A%20%20%20%20%2F%2F%20because%20it%20might%20fail%0A%20%20%20%20let%20ref_pie%20%3D%20mutex_pie.lock().unwrap()%3B%0A%20%20%20%20ref_pie.eat()%3B%0A%20%20%20%20%2F%2F%20locked%20reference%20drops%20here%2C%20and%20mutex%20protected%20value%20can%20be%20used%20by%20someone%20else%0A%7D%0A
+    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Async%3A%3AMutex%3B%0A%0Astruct%20Placinta%3B%0A%0Aimpl%20Placinta%20%7B%0A%20%20%20%20fn%20mananca(%26self)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22mananc%20placinta%20doar%20acum!%22)%3B%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20mutex_placinta%20%3D%20Mutex%3A%3Anew(Placinta)%3B%0A%20%20%20%20%2F%2F%20haideti%20sa%20imprumutam%20o%20referinta%20imutabila%20a%20placintei%0A%20%20%20%20%2F%2F%20trebuie%20sa%20despachetam%20rezultatul%20lock-ului%0A%20%20%20%20%2F%2F%20caci%20ar%20putea%20esua%0A%20%20%20%20let%20ref_placinta%20%3D%20mutex_placinta.lock().unwrap()%3B%0A%20%20%20%20ref_placinta.mananca()%3B%0A%20%20%20%20%2F%2F%20referinta%20cu%20lock%20este%20eliminata%20(drop)%20aici%2C%0A%20%20%20%20%2F%2F%20iar%20valoarea%20protejata%20de%20mutex%20poate%20fi%20folosita%20de%20altcineva%0A%7D%0A
   content_markdown: >
-    `Mutex` is a container data structure commonly held by smart pointers that
-    takes in data and lets us borrow mutable
+    `Mutex` este o structură de date de tip container ținută în mod obișnuit
+    de smart pointeri care preia date și ne permite
 
-    and immutable references to the data within. This prevents borrowing from
-    being abused by 
+    să împrumutăm referințe mutabile și imuabile la ceea ce se află în interior.
+    Acesta previne abuzul de împrumut prin restricționarea,
+    
+    de către sistemul de operare, a accesului la date doar pentru un singur
+    thread al procesorului la un moment de timp, 
 
-    having the operating system restrict only one CPU thread at time to have
-    access to the data, 
-
-    blocking other threads until that original thread is done with its locked
-    borrow.
-
-
-    Multithreading is beyond the scope of Tour of Rust, but `Mutex` is a
-    fundamental part of orchestrating
-
-    multiple CPU threads accessing the same data.
+    blocând alte thread-uri până când thread-ul original a terminat cu împrumutul său cu lock.
 
 
-    There is a special smart pointer `Arc` which is identical to `Rc` except
-    uses thread-safe incrementing of reference counts. 
+    Multithreading-ul este dincolo de obiectivul Turului limbajului Rust, dar `Mutex` este o parte
+    fundamentală a orchestrării mai multor thread-uri ale procesorului ce accesează aceleași date.
 
-    It's often used to have many references to the same `Mutex`.
-- title: Combining Smart Pointers
+
+    Există un smart pointer special `Arc`, care este identic cu `Rc`, cu excepția faptului că
+    folosește o incrementare a numărului de referințe în condiții de siguranță pentru thread-uri.  
+
+    Este adesea utilizat pentru a avea mai multe referințe la același `Mutex`.
+- title: Combinarea Smart Pointerilor
   code: >-
-    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Acell%3A%3ARefCell%3B%0Ause%20std%3A%3Arc%3A%3ARc%3B%0A%0Astruct%20Pie%20%7B%0A%20%20%20%20slices%3A%20u8%2C%0A%7D%0A%0Aimpl%20Pie%20%7B%0A%20%20%20%20fn%20eat_slice(%26mut%20self%2C%20name%3A%20%26str)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22%7B%7D%20took%20a%20slice!%22%2C%20name)%3B%0A%20%20%20%20%20%20%20%20self.slices%20-%3D%201%3B%0A%20%20%20%20%7D%0A%7D%0A%0Astruct%20SeaCreature%20%7B%0A%20%20%20%20name%3A%20String%2C%0A%20%20%20%20pie%3A%20Rc%3CRefCell%3CPie%3E%3E%2C%0A%7D%0A%0Aimpl%20SeaCreature%20%7B%0A%20%20%20%20fn%20eat(%26self)%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20use%20smart%20pointer%20to%20pie%20for%20a%20mutable%20borrow%0A%20%20%20%20%20%20%20%20let%20mut%20p%20%3D%20self.pie.borrow_mut()%3B%0A%20%20%20%20%20%20%20%20%2F%2F%20take%20a%20bite!%0A%20%20%20%20%20%20%20%20p.eat_slice(%26self.name)%3B%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20pie%20%3D%20Rc%3A%3Anew(RefCell%3A%3Anew(Pie%20%7B%20slices%3A%208%20%7D))%3B%0A%20%20%20%20%2F%2F%20ferris%20and%20sarah%20are%20given%20clones%20of%20smart%20pointer%20to%20pie%0A%20%20%20%20let%20ferris%20%3D%20SeaCreature%20%7B%0A%20%20%20%20%20%20%20%20name%3A%20String%3A%3Afrom(%22ferris%22)%2C%0A%20%20%20%20%20%20%20%20pie%3A%20pie.clone()%2C%0A%20%20%20%20%7D%3B%0A%20%20%20%20let%20sarah%20%3D%20SeaCreature%20%7B%0A%20%20%20%20%20%20%20%20name%3A%20String%3A%3Afrom(%22sarah%22)%2C%0A%20%20%20%20%20%20%20%20pie%3A%20pie.clone()%2C%0A%20%20%20%20%7D%3B%0A%20%20%20%20ferris.eat()%3B%0A%20%20%20%20sarah.eat()%3B%0A%0A%20%20%20%20let%20p%20%3D%20pie.borrow()%3B%0A%20%20%20%20println!(%22%7B%7D%20slices%20left%22%2C%20p.slices)%3B%0A%7D%0A
+    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=use%20std%3A%3Acell%3A%3ARefCell%3B%0Ause%20std%3A%3Arc%3A%3ARc%3B%0A%0Astruct%20Placinta%20%7B%0A%20%20%20%20felii%3A%20u8%2C%0A%7D%0A%0Aimpl%20Placinta%20%7B%0A%20%20%20%20fn%20mananca_felia(%26mut%20self%2C%20nume%3A%20%26str)%20%7B%0A%20%20%20%20%20%20%20%20println!(%22%7B%7D%20a%20luat%20o%20felie!%22%2C%20nume)%3B%0A%20%20%20%20%20%20%20%20self.felii%20-%3D%201%3B%0A%20%20%20%20%7D%0A%7D%0A%0Astruct%20CreaturaMaritima%20%7B%0A%20%20%20%20nume%3A%20String%2C%0A%20%20%20%20placinta%3A%20Rc%3CRefCell%3CPlacinta%3E%3E%2C%0A%7D%0A%0Aimpl%20CreaturaMaritima%20%7B%0A%20%20%20%20fn%20mananca(%26self)%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20folositi%20un%20smart%20pointer%20catre%20placinta%20pentru%20un%20imprumut%20mutabil%0A%20%20%20%20%20%20%20%20let%20mut%20p%20%3D%20self.placinta.borrow_mut()%3B%0A%20%20%20%20%20%20%20%20%2F%2F%20ia%20o%20muscatura!%0A%20%20%20%20%20%20%20%20p.mananca_felia(%26self.nume)%3B%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20placinta%20%3D%20Rc%3A%3Anew(RefCell%3A%3Anew(Placinta%20%7B%20felii%3A%208%20%7D))%3B%0A%20%20%20%20%2F%2F%20ferris%20si%20sarah%20primesc%20clone%20de%20smart%20pointeri%20catre%20placinta%0A%20%20%20%20let%20ferris%20%3D%20CreaturaMaritima%20%7B%0A%20%20%20%20%20%20%20%20nume%3A%20String%3A%3Afrom(%22ferris%22)%2C%0A%20%20%20%20%20%20%20%20placinta%3A%20placinta.clone()%2C%0A%20%20%20%20%7D%3B%0A%20%20%20%20let%20sarah%20%3D%20CreaturaMaritima%20%7B%0A%20%20%20%20%20%20%20%20nume%3A%20String%3A%3Afrom(%22sarah%22)%2C%0A%20%20%20%20%20%20%20%20placinta%3A%20placinta.clone()%2C%0A%20%20%20%20%7D%3B%0A%20%20%20%20ferris.mananca()%3B%0A%20%20%20%20sarah.mananca()%3B%0A%0A%20%20%20%20let%20p%20%3D%20placinta.borrow()%3B%0A%20%20%20%20println!(%22%7B%7D%20felii%20ramase%22%2C%20p.felii)%3B%0A%7D%0A
   content_markdown: >
-    Smart pointers might seem limited, but they can make some very powerful
-    combinations.
+    Smart pointerii pot părea limitați, dar ei pot realiza niște combinații foarte puternice.
 
 
-    `Rc<Vec<Foo>>` - Allow the cloning of multiple smart pointers that can
-    borrow the same vector of immutable data structures on the heap.
+    `Rc<Vec<Foo>>` - Permite clonarea mai multor smart pointeri care pot împrumuta același
+    vector de structuri de date imuabile pe heap.
 
 
-    `Rc<RefCell<Foo>>` - Allow multiple smart pointers the ability to borrow
-    mutably/immutably the same struct `Foo`
+    `Rc<RefCell<Foo>>`` - Permite ca mai mulți smart pointeri să poată împrumuta în mod
+    mutabil/imutabil aceeași structură `Foo`.
 
 
-    `Arc<Mutex<Foo>>` - Allow multiple smart pointers the ability to lock
-    temporary mutable/immutable borrows in a CPU thread exclusive manner.
+    `Arc<Mutex<Foo>>`` - Permite mai multor smart pointeri să blocheze împrumuturi temporare
+    mutabile/imuabile într-o manieră exclusivă pentru thread-ul procesorului.
 
 
-    Memory detail:
+    Detalii cu privire la memorie:
 
-    * You'll notice a theme with many of these combinations. The use of an
-    immutable data type (possibly owned by multiple smart pointers) to modify
-    internal data. This 
-      is referred to as the "interior mutability" pattern in Rust. It is a pattern that lets us bend the rules of memory usage at runtime with the same level of safety as Rust's
-      compile-time checks.
-
-- title: Chapter 8 - Conclusion
+    * Veți observa un aspect la multe dintre aceste combinații. Utilizarea unui tip de date imutabil
+    (posibil deținut de mai mulți smart pointeri) pentru a modifica date interne. Acest lucru este
+    
+    cunoscut sub numele de patternul de "mutabilitate interioară" în Rust. Acesta este un pattern care
+    ne permite să eludăm regulile de utilizare a memoriei la runtime cu același nivel de siguranță
+    
+    ca și verificările limbajului Rust la compilare.
+- title: Capitolul 8 - Concluzie
   content_markdown: >
-    Smart pointers are the idioms of Rust programming and let us not have to
-    re-create the 
-
-    very common patterns of memory usage. With them you are ready to tackle the
-    toughest of
-
-    challenges! Now that we have the foundations of Rust, let's talk a bit about
-    how we make 
-
-    larger projects. In chapter 9 we break free of single page
-
-    lines of code.
+    Smart pointeriii sunt idiomurile limbajului de programare Rust și ne permit să nu trebuiască
+    să recreăm pattern-uri foarte comune de utilizare a memoriei.
+    
+    Cu ajutorul lor sunteți gata să abordați cele mai dificile provocări!
+    
+    Acum că avem bazele limbajului Rust, haideți să vorbim puțin despre cum facem proiecte mai mari.
+    În capitolul 9 ne desprindem de lucrul pe o singură pagină de linii de cod.
