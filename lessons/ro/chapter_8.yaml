@@ -1,0 +1,12 @@
+- title: Capitolul 8 - Smart Pointers
+  content_markdown: >
+    În acest capitol o să lămurim neclaritățile legate de **Smart Pointeri**. Hai să explorăm aceste
+    structuri de date ce ne lasă să interacționăm cu cel mai de jos nivel al memoriei.
+
+
+    **Ferris**: "Să nu te simți descurajat dacă nu poți să scrii un cod low level
+    din punct de vedere al memoriei din prima după o simplă lecturare.
+
+
+    În capitolul acesta o să ne focusăm în mare parte pe introducerea unor concepte utile și vom vedea
+    cum funcționează și cum să le folosim!"
