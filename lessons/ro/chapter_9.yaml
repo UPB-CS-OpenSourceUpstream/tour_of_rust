@@ -6,7 +6,7 @@
   content_markdown: |
     Fiecare program sau bibliotecă Rust este o *cutie*.
 
-    Fiecare cutie este alcătuit dintr-o ierarhie de *module*.
+    Fiecare cutie este alcătuită dintr-o ierarhie de *module*.
 
     Fiecare cutie are un modul rădăcină.
 
@@ -19,18 +19,18 @@
 - title: Scrierea unei Biblioteci
   content_markdown: |
     O bibliotecă are un modul rădăcină într-un fișier numit `lib.rs`.
-- title: Referințierea de către alte module și cutii
+- title: Referențierea de către alte module și cutii
   code: >-
     https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=use%20std%3A%3Af64%3A%3Aconsts%3A%3API%3B%0A%0Afn%20main()%20%7B%0A%20%20%20%20println!(%22Bun%20venit%20la%20locul%20de%20joac%C4%83!%22)%3B%0A%20%20%20%20println!(%22PI%20este%20echivalent%20cu%20%7B%7D%22%2C%20PI)%3B%0A%7D%0A
   content_markdown: >
-    Elementele din module pot fi refererențiate cu calea completă a acestora.
+    Elementele din modulele pot fi referențiate cu calea completă a acestora.
     `std::f64::consts::PI`.
 
 
     O modalitate mai simplă este cuvântul cheie **use**. Acesta ne permite să specificăm
     anumite elemente din modulele pe care dorim să le
 
-    să folosim în tot codul nostru fără o cale completă. Spre exemplu `use
+    folosim în tot codul nostru fără o cale completă. Spre exemplu `use
     std::f64::consts::PI`
 
     îmi permite să folosesc doar identificatorul `PI` în funcția mea principală.
@@ -40,7 +40,7 @@
     structuri de date și funcții utile pentru interacțiunea cu sistemul de operare.
 
 
-    Un repertoriu de căutare a cutiilor (în denumite engleza *crate*) create de comunitate poate fi găsit la adresa
+    Un repertoriu de căutare a cutiilor (în engleza denumite *crate*) create de comunitate poate fi găsit la adresa
     [https://crates.io](https://crates.io/).
 - title: Referința la mai multe elemente
   content_markdown: |
@@ -75,7 +75,7 @@
     ```
 
 
-    Declarația de mai sus va căuta un fișier numit `foo.rs` sau `foo/mod.rs`.
+    Declarația de mai sus va căuta un fișier numit `foo.rs` sau `foo/mod.rs`
     și
 
     va insera conținutul acestuia în interiorul unui modul numit `foo`, în domeniul de vizibilitate al acestuia.
@@ -107,7 +107,7 @@
     ```
 - title: Referențierea Modulelor Interne
   content_markdown: >
-    Rust are câteva cuvinte cheie pe care le puteți folosi în calea `use` pentru a obține rapid
+    Rust are câteva cuvinte cheie pe care le puteți folosi în calea `use` pentru a obține
     rapid modulul pe care îl doriți:
 
     * `crate` - modulul rădăcină al cutiei dvs.
@@ -126,17 +126,17 @@
     În mod implicit, membrii unei cutii nu sunt accesibili din afara cutiei. Noi
     facem membrii unei
 
-    cutii accesibilă prin marcarea lor ca `pub` în modulul rădăcină (în engleză *root module*) al
+    cutii accesibili prin marcarea lor ca `pub` în modulul rădăcină (în engleză *root module*) al
     cutiei dvs. (`lib.rs` sau `main.rs`).
 - title: Vizibilitatea Structurilor
   content_markdown: >
     La fel ca și funcțiile, structurile pot declara ceea ce doresc să fie expus
     în afara modulului lor folosind `pub`.
   code: >-
-    https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=%2F%2F%20SeaCreature%20struct%20will%20be%20usable%20outside%20of%20our%20module%0Apub%20struct%20SeaCreature%20%7B%0A%20%20%20%20pub%20animal_type%3A%20String%2C%0A%20%20%20%20pub%20name%3A%20String%2C%0A%20%20%20%20pub%20arms%3A%20i32%2C%0A%20%20%20%20pub%20legs%3A%20i32%2C%0A%20%20%20%20%2F%2F%20let's%20keep%20our%20weapon%20private%0A%20%20%20%20weapon%3A%20String%2C%0A%7D%0A
+    https://play.rust-lang.org/?version=stable&mode=debug&edition=2021
 - title: Preludiu
   content_markdown: |
-    Poate vă întrebați cum de avem acces la `Vec` sau `Box`.
+    Poate vă întrebați cum de avem acces la `Vec` sau `Box`
     peste tot, fără un `use` pentru a le importa. Acest lucru se datorează modulului
     `prelude` din biblioteca standard.
 
@@ -158,7 +158,7 @@
     să știe de unde să înceapă.
 
 
-    Ferris spune: "Fiți un rustacean bun și ajutați alți crabi cu un
+    Ferris spune: "Fiți un rustăcean bun și ajutați alți crabi cu un
     preludiu bun!"
 - title: Capitolul 9 - Concluzii
   content_markdown: >
