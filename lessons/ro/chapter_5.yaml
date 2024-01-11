@@ -43,7 +43,7 @@
 - title: Cedarea proprietății
   content_markdown: >
     Proprietatea unei resurse din memorie (a cărei proprietar este o variabilă) poate fi cedată atunci când folosim 
-    variabila respectivă ca argument în interiorul unei funcții, noul proprietar fiind paramentrul funcției.
+    variabila respectivă ca argument în interiorul unei funcții, noul proprietar fiind parametrul funcției.
 
     După o **cedare a proprietății**, variabila din funcția originală nu mai poate fi
     folosită.
@@ -105,7 +105,7 @@
 
     Detalii despre memorie:
 
-    * Prima regula pentru referințe previne intercalarea datelor (data races). Ce este o intercalare a datelor?
+    * Prima regulă pentru referințe previne intercalarea datelor (data races). Ce este o intercalare a datelor?
     Există posibilitatea ca atunci când citim niște date, acestea să fie desincronizate
     din cauza existenței unei entități (funcție sau alt mecanism) care modifică acele date în același timp. Acest lucru
     se întâmplă des în programarea pe mai multe thread-uri (multi-threaded).
@@ -121,7 +121,7 @@
     https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&code=struct%20Foo%20%7B%0A%20%20%20%20x%3A%20i32%2C%0A%7D%0A%0Afn%20do_something(a%3A%20%26Foo)%20-%3E%20%26i32%20%7B%0A%20%20%20%20return%20%26a.x%3B%0A%7D%0A%0Afn%20main()%20%7B%0A%20%20%20%20let%20mut%20foo%20%3D%20Foo%20%7B%20x%3A%2042%20%7D%3B%0A%20%20%20%20let%20x%20%3D%20%26mut%20foo.x%3B%0A%20%20%20%20*x%20%3D%2013%3B%0A%20%20%20%20%2F%2F%20se%20renun%C8%9B%C4%83%20la%20x%20aici%20%C8%99i%20putem%20crea%20o%20referin%C8%9B%C4%83%20imutabil%C4%83%0A%20%20%20%20let%20y%20%3D%20do_something(%26foo)%3B%0A%20%20%20%20println!(%22%7B%7D%22%2C%20y)%3B%0A%20%20%20%20%2F%2F%20se%20renun%C8%9B%C4%83%20la%20y%20aici%0A%20%20%20%20%2F%2F%20se%20renun%C8%9B%C4%83%20la%20foo%20aici%0A%7D%0A
 - title: Durate de viață explicite
   content_markdown: >
-    Cu toate că Rust nu arată acest lucu în cod, compilatorul înțelege
+    Cu toate că Rust nu arată acest lucru în cod, compilatorul înțelege
     duratele de viață a fiecărei variabile sau resurse și va încerca
     
     să se asigure că nu există nicio referință cu durată de viață mai mare decât proprietarul ei.
