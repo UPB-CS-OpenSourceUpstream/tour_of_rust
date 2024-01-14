@@ -128,7 +128,7 @@
     un alt tip. Smart pointerii sunt diferiți în ceea ce privește 
 
     comportamentul față de referințele normale, deoarece aceștia operează pe baza unei logici interne
-    scrisă de programator. Dumneavoastră - programatorul -sunteți partea *inteligentă*.
+    scrisă de programator. Dumneavoastră - programatorul - sunteți partea *inteligentă*.
 
 
     De obicei, smart pointerii implementează trăsăturile `Deref`, `DerefMut` și `Drop` pentru a
