@@ -47,7 +47,7 @@
     Detalii despre memorie:
 
     * O referință în Rust este foarte asemănătoare cu un pointer în C din punct de vedere al utilizării, dar cu mult
-    mai multe restricții la momentul compilării asupra modul în care poate fi stocată și transmisă către alte funcții.
+    mai multe restricții la momentul compilării asupra modului în care poate fi stocată și transmisă către alte funcții.
 
     * Un pointer brut în Rust este similar cu un pointer în C, în sensul că reprezintă un număr care poate fi copiat
     sau transmis și chiar transformat în tipuri numerice unde poate fi modificat pentru a efectua aritmetică cu pointeri.
