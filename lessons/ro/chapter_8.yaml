@@ -250,7 +250,7 @@
     din Rust în timpul execuției, atunci când cereți împrumutul datelor din interior:
 
 
-    **Doar o singură referință mutabilă SAU mai multe referințe imuabile, dar nu
+    **Doar o singură referință mutabilă SAU mai multe referințe imutabile, dar nu
     ambele!**
 
 
