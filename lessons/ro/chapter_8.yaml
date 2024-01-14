@@ -244,7 +244,7 @@
     `RefCell` este o structură de date de tip container ținută în mod obișnuit
     de smart pointeri care preia date și ne permite
 
-    să împrumutăm referințe mutabile și imuabile la ceea ce se află în interior.
+    să împrumutăm referințe mutabile și imutabile la ceea ce se află în interior.
     Aceasta previne abuzul de împrumut prin aplicarea regulilor de siguranță a memoriei
     
     din Rust în timpul execuției, atunci când cereți împrumutul datelor din interior:
