@@ -127,7 +127,7 @@
     Ne putem gândi la referințe la un nivel înalt ca la un tip care ne oferă acces la
     un alt tip. Smart pointerii sunt diferiți în ceea ce privește 
 
-    comportament față de referințele normale, deoarece aceștia operează pe baza unei logici interne
+    comportamentul față de referințele normale, deoarece aceștia operează pe baza unei logici interne
     scrisă de programator. Dumneavoastră - programatorul -sunteți partea *inteligentă*.
 
 
